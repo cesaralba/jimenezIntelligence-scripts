@@ -1,13 +1,27 @@
-#!/bin/bash
+#!/bin/bash 
 
-REPOURL="git@github.com:cesaralba/jimenezIntelligence.git"
+CONFIGFILE=/etc/sysconfig/SuperManager
+
 BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
 WRKDIR="${BASEDIR}/wrk"
 TODAY=$(date '+%Y%m%d%H%M')
 
+[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+
+if [ "x${SM_REPO}" = "x" ]
+then
+  echo "ORROR: No se ha suministrado valor para SM_REPO. Adios."
+  exit 1
+fi
 [ -d ${WRKDIR} ] && rm -rf  ${WRKDIR}
 mkdir -p ${WRKDIR}
-git clone -q --branch master ${REPOURL} ${WRKDIR}
+git clone -q --branch master ${SM_REPO} ${WRKDIR}
+
+if [ $? != 0 ]
+then
+  echo "$0: Problems with GIT. Bye"
+  exit 1
+fi
 
 source /home/calba/devel/SuperManagerPython/SACBenv/bin/activate
 
@@ -27,7 +41,6 @@ then
     mv ${DESTSMFILE} ${ORIGSMFILE}
   fi
 fi  
-
 
 chown -R calba /home/calba/devel/SuperManager
 
