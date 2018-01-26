@@ -30,7 +30,13 @@ then
   exit 1
 fi
 
-source /home/calba/devel/SuperManagerPython/SACBenv/bin/activate
+VENV=${VENVHOME:-"${BASEDIR}/venv"}
+
+if [ -f "${VENV}/bin/activate" ] ; then
+  source "${VENV}/bin/activate"
+else
+  echo "ORROR: Incapaz de encontrar activador de virtualenv"
+fi
 
 ORIGSMFILE="${ROOTDATA}/full/SM2017.latest.p"
 DESTSMFILE="${ROOTDATA}/full/SM2017.newest.p"
