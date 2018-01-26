@@ -3,8 +3,15 @@
 CONFIGFILE=/etc/sysconfig/SuperManager
 
 BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
-WRKDIR="${BASEDIR}/wrk"
 TODAY=$(date '+%Y%m%d%H%M')
+
+if [ -n "${DATADIR}" ] ; then
+  ROOTDATA=${DATADIR}
+else
+  ROOTDATA=${BASEDIR}
+fi
+
+WRKDIR="${ROOTDATA}/wrk"
 
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 
@@ -25,10 +32,10 @@ fi
 
 source /home/calba/devel/SuperManagerPython/SACBenv/bin/activate
 
-ORIGSMFILE="${BASEDIR}/full/SM2017.latest.p"
-DESTSMFILE="${BASEDIR}/full/SM2017.newest.p"
-DESTSMFILEDATED="${BASEDIR}/full/SM2017.${TODAY}.p"
-TEMPORADA="${BASEDIR}/temporada/ACB2017.latest.p"
+ORIGSMFILE="${ROOTDATA}/full/SM2017.latest.p"
+DESTSMFILE="${ROOTDATA}/full/SM2017.newest.p"
+DESTSMFILEDATED="${ROOTDATA}/full/SM2017.${TODAY}.p"
+TEMPORADA="${ROOTDATA}/temporada/ACB2017.latest.p"
 
 
 python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o ${DESTSMFILE} -t ${TEMPORADA}
@@ -43,5 +50,4 @@ then
   fi
 fi  
 
-chown -R calba /home/calba/devel/SuperManager
 
