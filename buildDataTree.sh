@@ -8,5 +8,5 @@ else
   ROOTDATA=${BASEDIR}
 fi
 
-mkdir -p ${ROOTDIR}/{mercado,full,temporada}
+mkdir -p ${ROOTDATA}/{mercado,full,temporada}
 
