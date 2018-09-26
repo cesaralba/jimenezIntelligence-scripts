@@ -14,6 +14,7 @@ fi
 WRKDIR="${ROOTDATA}/wrk"
 
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+CLAVEYEAR=${FILEKEY:-2018}
 
 if [ "x${SM_REPO}" = "x" ]
 then
@@ -38,10 +39,10 @@ else
   echo "ORROR: Incapaz de encontrar activador de virtualenv"
 fi
 
-ORIGSMFILE="${ROOTDATA}/full/SM2017.latest.p"
-DESTSMFILE="${ROOTDATA}/full/SM2017.newest.p"
-DESTSMFILEDATED="${ROOTDATA}/full/SM2017.${TODAY}.p"
-TEMPORADA="${ROOTDATA}/temporada/ACB2017.latest.p"
+ORIGSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.latest.p"
+DESTSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.newest.p"
+DESTSMFILEDATED="${ROOTDATA}/full/SM${CLAVEYEAR}.${TODAY}.p"
+TEMPORADA="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 
 
 python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o ${DESTSMFILE} -t ${TEMPORADA}

@@ -6,6 +6,7 @@ BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
 
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+CLAVEYEAR=${FILEKEY:-2018}
 
 if [ -n "${DATADIR}" ] ; then
   ROOTDATA=${DATADIR}
@@ -39,11 +40,11 @@ else
 fi
 
 
-ORIGSMFILE="${ROOTDATA}/temporada/ACB2017.latest.p"
-DESTSMFILE="${ROOTDATA}/temporada/ACB2017.newest.p"
-DESTSMFILEDATED="${ROOTDATA}/temporada/ACB2017.${TODAY}.p"
+ORIGSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
+DESTSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
+DESTSMFILEDATED="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.${TODAY}.p"
 
-python ${WRKDIR}/DescargaTemporada.py -e 62 -i ${ORIGSMFILE} -o ${DESTSMFILE}
+python ${WRKDIR}/DescargaTemporada.py -i ${ORIGSMFILE} -o ${DESTSMFILE}
 #python ${WRKDIR}/DescargaTemporada.py -e 62 -o ${DESTSMFILE}
 
 if [ $? = 0 ]
