@@ -45,7 +45,8 @@ DESTSMFILEDATED="${ROOTDATA}/full/SM${CLAVEYEAR}.${TODAY}.p"
 TEMPORADA="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 
 
-python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o ${DESTSMFILE} -t ${TEMPORADA} $*
+python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o /tmp/auxpp1.p -t ${TEMPORADA} -j 1
+python ${WRKDIR}/fixers/AddMercadoFiles2.py -u ${SM_USER} -p ${SM_PASSWORD} -i /tmp/auxpp1.p -o ${DESTSMFILE} -t ${TEMPORADA} -j 0:20180927-061016 -j 1:20181001-073932
 
 if [ $? = 0 ]
 then

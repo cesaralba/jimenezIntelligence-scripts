@@ -129,4 +129,7 @@ vault_pass.txt
 
 *sftp-config.json
 
+#intelliJ
+.idea
+*.iml
 

@@ -40,22 +40,11 @@ else
 fi
 
 ORIGSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.latest.p"
-DESTSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.newest.p"
-DESTSMFILEDATED="${ROOTDATA}/full/SM${CLAVEYEAR}.${TODAY}.p"
 TEMPORADA="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
+DESTSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.newest.p"
+DESTTMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
+DESTEXFILEDATED="${ROOTDATA}/excel/SM${TODAY}.xlsx"
 
-
-python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o ${DESTSMFILE} -t ${TEMPORADA} $*
-
-if [ $? = 0 ]
-then
-  if [ -f ${DESTSMFILE} ]
-  then
-    cp ${DESTSMFILE} ${DESTSMFILEDATED}
-    gzip -9 ${DESTSMFILEDATED}
-    cp ${DESTSMFILEDATED}.gz ${DESTSMFILE}.gz
-    mv ${DESTSMFILE} ${ORIGSMFILE}
-  fi
-fi  
+python ${WRKDIR}/InformeSuperManager3.py -i ${ORIGSMFILE}  -t ${TEMPORADA} -o ${DESTEXFILEDATED} $*
 
 
