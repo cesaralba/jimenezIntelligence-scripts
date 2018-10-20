@@ -1,7 +1,11 @@
 #!/bin/bash
 
+CONFIGFILE=/etc/sysconfig/SuperManager
+
 BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
+
+[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 
 if [ -n "${DATADIR}" ] ; then
   ROOTDATA=${DATADIR}
