@@ -43,7 +43,7 @@ ORIGSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.latest.p"
 TEMPORADA="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 DESTSMFILE="${ROOTDATA}/full/SM${CLAVEYEAR}.newest.p"
 DESTTMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
-DESTEXFILE="${ROOTDATA}/excel/SM${TODAY}.newest.xlsx"
+DESTEXFILE="${ROOTDATA}/excel/SM.newest.xlsx"
 DESTEXFILEDATED="${ROOTDATA}/excel/SM${TODAY}.xlsx"
 
 python ${WRKDIR}/InformeSuperManager3.py -i ${ORIGSMFILE}  -t ${TEMPORADA} -o ${DESTEXFILE} $*
