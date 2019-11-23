@@ -45,6 +45,7 @@ DESTSMFILEDATED="${ROOTDATA}/full/SM${CLAVEYEAR}.${TODAY}.p"
 TEMPORADA="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 
 
+#python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -o ${DESTSMFILE} -t ${TEMPORADA} $*
 python ${WRKDIR}/GetSuperManagerMerged.py -u ${SM_USER} -p ${SM_PASSWORD} -i ${ORIGSMFILE} -o ${DESTSMFILE} -t ${TEMPORADA} $*
 
 if [ $? = 0 ]
