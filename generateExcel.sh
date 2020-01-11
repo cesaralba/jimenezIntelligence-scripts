@@ -46,7 +46,7 @@ DESTTMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
 DESTEXFILE="${ROOTDATA}/excel/SM.newest.xlsx"
 DESTEXFILEDATED="${ROOTDATA}/excel/SM${TODAY}.xlsx"
 
-python ${WRKDIR}/InformeSuperManager3.py -i ${ORIGSMFILE}  -t ${TEMPORADA} -o ${DESTEXFILE} $*
+python ${WRKDIR}/creaExcel.py -i ${ORIGSMFILE}  -t ${TEMPORADA} -o ${DESTEXFILE} $*
 cp ${DESTEXFILE}  ${DESTEXFILEDATED}
 
 
