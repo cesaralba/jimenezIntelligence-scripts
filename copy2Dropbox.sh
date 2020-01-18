@@ -17,3 +17,4 @@ TEMPORADA="${BASEDIR}/temporada/ACB${CLAVEYEAR}.latest.p"
 
 
 rsync -aq  ${SMFILE} ${TEMPORADA} ${DESTDIR}
+chown -R calba ${DESTDIR}
