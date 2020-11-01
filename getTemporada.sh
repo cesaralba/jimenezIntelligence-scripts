@@ -44,9 +44,9 @@ ORIGSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 DESTSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
 DESTSMFILEDATED="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.${TODAY}.p"
 
+# Descarga con esto al inicio de temporada
 #python ${WRKDIR}/DescargaTemporada.py -o ${DESTSMFILE} -f  -b
 python ${WRKDIR}/DescargaTemporada.py -i ${ORIGSMFILE} -o ${DESTSMFILE} -b 
-#python ${WRKDIR}/DescargaTemporada.py -e 62 -o ${DESTSMFILE}
 
 if [ $? = 0 ]
 then
