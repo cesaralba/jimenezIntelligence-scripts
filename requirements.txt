@@ -1,11 +1,8 @@
+Babel==2.8.0
+beautifulsoup4==4.8.2
 ConfigArgParse==0.13.0
-#cpickle
+MechanicalSoup==0.12.0
+pandas==0.25.3
+XlsxWriter==1.2.7
 
-beautifulsoup4==4.6.3
-
-Babel==2.6.0
-pandas==0.23.4
-MechanicalSoup==0.11.0
-
-XlsxWriter==1.0.2
 
