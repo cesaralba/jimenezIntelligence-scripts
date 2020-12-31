@@ -45,6 +45,7 @@ DESTSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
 DESTSMFILEDATED="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.${TODAY}.p"
 
 # Descarga con esto al inicio de temporada
+#echo "En blanco"
 #python ${WRKDIR}/DescargaTemporada.py -o ${DESTSMFILE} -f  -b
 python ${WRKDIR}/DescargaTemporada.py -i ${ORIGSMFILE} -o ${DESTSMFILE} -b 
 
