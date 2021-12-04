@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/bin/bash -vx
 
 set -e
 HEREDIR=$(cd "$(dirname $(readlink -e $0))" && pwd )
 TARGETDIR="${HEREDIR}/../venv"
+
+VENVHOME=${1:-${TARGETDIR}}
+ACTIVATIONSCR="${VENVHOME}/bin/activate"
 
 function soLong {
   MSG=${1:-No msg}
@@ -21,6 +24,10 @@ function help {
   VENVHOME: Ubicación del virtual environment. Por defecto '${TARGETDIR}'
   REQSFILES: Ficheros requirements.txt con módulos a instalar. Se instalan todos a la vez
 
+  AVISO: Solo lo crea si no lo hay (no existe el directorio VENVHOME o dentro
+  no hay VENVHOME/bin/activate ). Si el virtual env está corrupto, borrarlo y
+  se recreará según los parámetros suministrados.
+
 FIN
 )
   echo "${MSG}"
@@ -33,8 +40,6 @@ then
   exit 1
 fi
 
-VENVHOME=${1:-${TARGETDIR}}
-ACTIVATIONSCR="${VENVHOME}/bin/activate"
 
 shift
 
