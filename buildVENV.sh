@@ -1,4 +1,4 @@
-#!/bin/bash -vx
+#!/bin/bash
 
 set -e
 HEREDIR=$(cd "$(dirname $(readlink -e $0))" && pwd )
@@ -57,10 +57,11 @@ pip install --upgrade pip wheel
 PARAMREQS=""
 for REQ in $*
 do
-  echo "===REQ ${REQ}"
   if [ -f $REQ -a -r $REQ ]
   then
     PARAMREQS="${PARAMREQS} -r $REQ"
+  else
+    echo "Fichero de requisitos ${REQ} inexistente o no se puede leer. Ignorando"
   fi
 done
 
