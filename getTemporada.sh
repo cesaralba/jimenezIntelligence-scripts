@@ -65,4 +65,3 @@ then
     mv ${DESTSMFILE} ${ORIGSMFILE}
   fi
 fi
-
