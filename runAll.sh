@@ -8,6 +8,6 @@ bash ${BASEDIR}/buildDataTree.sh
 bash ${BASEDIR}/getMercado.sh
 echo "Get Temporada"
 bash ${BASEDIR}/getTemporada.sh
-echo "Get SuperManager"
-bash ${BASEDIR}/getSuperManagerMerged.sh -y
+#echo "Get SuperManager"
+#bash ${BASEDIR}/getSuperManagerMerged.sh -y
 echo "Final ejecución $(date)"
