@@ -6,7 +6,7 @@ BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
 
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
-CLAVEYEAR=${FILEKEY:-2018}
+CLAVEYEAR=${FILEKEY:-2023}
 
 if [ -n "${DATADIR}" ] ; then
   ROOTDATA=${DATADIR}
