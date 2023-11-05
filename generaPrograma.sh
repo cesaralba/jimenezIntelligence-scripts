@@ -59,6 +59,8 @@ then
   exit 1
 fi
 
+export PYTHONPATH=${PYTHONPATH}:${WRKDIR}
+
 python ${WRKDIR}/bin/generaPrograma.py -t ${ORIGSMFILE} -e ${TARGETCLUB} -o ${DESTFILE}
 
 if [ $? = 0 ]
