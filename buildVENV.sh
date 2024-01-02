@@ -1,10 +1,18 @@
 #!/bin/bash
 
-set -e
-HEREDIR=$(cd "$(dirname $(readlink -e $0))" && pwd )
-TARGETDIR="${HEREDIR}/../venv"
+set -vx
 
-VENVHOME=${1:-${TARGETDIR}}
+CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
+[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+
+set -eu
+ME="$(readlink -e $0)"
+HEREDIR=$(cd "$(dirname ${ME})" && pwd )
+BASEDIR=$(cd "${HEREDIR}/../" && pwd )
+
+AUXVENVDIR="${BASEDIR}/venv"
+
+VENVHOME=${VENVHOME:-${AUXVENVDIR}}
 ACTIVATIONSCR="${VENVHOME}/bin/activate"
 
 function soLong {
@@ -13,49 +21,46 @@ function soLong {
   exit 1
 }
 
-
-function help {
-  #https://stackoverflow.com/a/1655389
-  MSG=$(cat<<FIN
-  $0 : Crea Virtual environment con requirements (opcionales). Uso:
-
-  $0 [VENVHOME] [REQSFILES]
-
-  VENVHOME: Ubicación del virtual environment. Por defecto '${TARGETDIR}'
-  REQSFILES: Ficheros requirements.txt con módulos a instalar. Se instalan todos a la vez
-
-  AVISO: Solo lo crea si no lo hay (no existe el directorio VENVHOME o dentro
-  no hay VENVHOME/bin/activate ). Si el virtual env está corrupto, borrarlo y
-  se recreará según los parámetros suministrados.
-
-FIN
-)
-  echo "${MSG}"
-  exit 1
-}
-
-if [ "x$1" = "x-h" ]
-then
-  help
-  exit 1
+if [ -n "${DATADIR}" ] ; then
+  ROOTDATA=${DATADIR}
+else
+  ROOTDATA=${BASEDIR}
 fi
 
 
-shift
+if [ "x${SM_REPO}" = "x" ]
+then
+  echo "ORROR: No se ha suministrado valor para SM_REPO. Adios."
+  exit 1
+fi
+
+WRKDIR="${ROOTDATA}/wrk"
+[ -d ${WRKDIR} ] && rm -rf  ${WRKDIR}
+mkdir -p ${WRKDIR}
+git clone -q --branch master ${SM_REPO} ${WRKDIR}
+
+if [ $? != 0 ]
+then
+  echo "$0: Problems with GIT. Bye"
+  exit 1
+fi
+
 
 if [ -d ${VENVHOME} -a -f ${ACTIVATIONSCR} ]
 then
-  #Nothing to see here
-  exit 0
+  :
+else
+  echo "Creando VENV en ${VENVHOME}"
+  python -mvenv --clear ${VENVHOME} || soLong "Problemas creand VENV en ${VENVHOME}"
 fi
 
-echo "Creando VENV en ${VENVHOME}"
-python -mvenv --clear ${VENVHOME} || soLong "Problemas creand VENV en ${VENVHOME}"
 source ${ACTIVATIONSCR}  || soLong "Problemas cargando ${ACTIVATIONSCR}"
-pip install --upgrade pip wheel
+pip install -q -U pip wheel
+
+
 
 PARAMREQS=""
-for REQ in $*
+for REQ in "${WRKDIR}/requirements.txt"
 do
   if [ -f $REQ -a -r $REQ ]
   then
@@ -67,5 +72,5 @@ done
 
 if [ -n "${PARAMREQS}" ]
 then
-  pip install ${PARAMREQS}
+  pip install -q ${PARAMREQS}
 fi
