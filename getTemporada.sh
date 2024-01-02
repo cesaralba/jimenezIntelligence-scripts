@@ -1,8 +1,16 @@
 #!/bin/bash
 
-CONFIGFILE=/etc/sysconfig/SuperManager
+function soLong {
+  MSG=${1:-No msg}
+  echo ${MSG}
+  exit 1
+}
 
-BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
+CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
+
+ME="$(readlink -e $0)"
+HEREDIR=$(cd "$(dirname ${ME})" && pwd )
+BASEDIR=$(cd "${HEREDIR}/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
 
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
@@ -14,31 +22,19 @@ else
   ROOTDATA=${BASEDIR}
 fi
 
-if [ "x${SM_REPO}" = "x" ]
-then
-  echo "ORROR: No se ha suministrado valor para SM_REPO. Adios."
-  exit 1
-fi
+[ "x${SM_REPO}" = "x" ] && soLong "ORROR: No se ha suministrado valor para SM_REPO. Adios."
 
 WRKDIR="${ROOTDATA}/wrk"
-[ -d ${WRKDIR} ] && rm -rf  ${WRKDIR}
-mkdir -p ${WRKDIR}
-git clone -q --branch master ${SM_REPO} ${WRKDIR}
-
-if [ $? != 0 ]
-then
-  echo "$0: Problems with GIT. Bye"
-  exit 1
-fi
+[ -d ${WRKDIR} ] || soLong "ORROR: No se encuentra código descargado. Pruebe a ejecutar ${HEREDIR}/buildVENV.sh . Adios."
 
 VENV=${VENVHOME:-"${BASEDIR}/venv"}
+ACTIVATIONSCR="${VENV}/bin/activate"
 
-if [ -f "${VENV}/bin/activate" ] ; then
-  source "${VENV}/bin/activate"
+if [ -f "${ACTIVATIONSCR}" ] ; then
+  source "${ACTIVATIONSCR}"
 else
-  echo "ORROR: Incapaz de encontrar activador de virtualenv"
+  soLong "ORROR: Incapaz de encontrar activador de virtualenv. Pruebe a ejecutar ${HEREDIR}/buildVENV.sh . Adios."
 fi
-
 
 ORIGSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
 DESTSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
@@ -51,9 +47,7 @@ else
   ORIGPARAM="-f"
 fi
 
-#python ${WRKDIR}/DescargaTemporada.py -o ${DESTSMFILE} -f  -b
 python ${WRKDIR}/DescargaTemporada.py ${ORIGPARAM} -o ${DESTSMFILE} -b
-#python ${WRKDIR}/DescargaTemporada.py -e 62 -o ${DESTSMFILE}
 
 if [ $? = 0 ]
 then
