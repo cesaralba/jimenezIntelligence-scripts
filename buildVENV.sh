@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -vx
-
 CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 
