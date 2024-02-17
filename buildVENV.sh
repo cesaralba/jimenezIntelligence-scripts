@@ -1,9 +1,15 @@
 #!/bin/bash
 
+set -eu
+
 CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 
-set -eu
+if [ "x${SM_DEBUGSCRIPTS}" = 1 ]
+then
+  set -vx
+fi
+
 ME="$(readlink -e $0)"
 HEREDIR=$(cd "$(dirname ${ME})" && pwd )
 BASEDIR=$(cd "${HEREDIR}/../" && pwd )
