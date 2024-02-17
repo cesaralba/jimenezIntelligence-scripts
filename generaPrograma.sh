@@ -1,22 +1,27 @@
 #!/bin/bash
 
+set -eu
+
+CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
+[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+
+if [ "x${SM_DEBUGSCRIPTS}" = 1 ]
+then
+  set -vx
+fi
+
 TARGETCLUB=${1:-RMB}
-
-CONFIGFILE=/etc/sysconfig/SuperManager
-
+CLAVEYEAR=${FILEKEY:-2023}
+COMPO=${SM_COMPETICION:-ACB}
 
 BASEDIR=$(cd "$(dirname $(readlink -e $0))/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
-
-[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
-CLAVEYEAR=${FILEKEY:-2023}
 
 if [ -n "${DATADIR}" ] ; then
   ROOTDATA=${DATADIR}
 else
   ROOTDATA=${BASEDIR}
 fi
-
 
 if [ "x${SM_REPO}" = "x" ]
 then
@@ -45,11 +50,10 @@ else
   echo "ORROR: Incapaz de encontrar activador de virtualenv"
 fi
 
+ORIGSMFILE="${ROOTDATA}/temporada/${COMPO}${CLAVEYEAR}.latest.p"
+REPORTDIR="${ROOTDATA}/programa/${COMPO}-${CLAVEYEAR}"
 
-ORIGSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
-REPORTDIR="${ROOTDATA}/programa/J${CLAVEYEAR}"
-
-DESTFILENAME="sigPartido-${TARGETCLUB}-ACB${CLAVEYEAR}-${TODAY}.pdf"
+DESTFILENAME="sigPartido${COMPO}-${TARGETCLUB}-ACB${CLAVEYEAR}-${TODAY}.pdf"
 DESTFILE="${REPORTDIR}/${DESTFILENAME}"
 
 [ -d ${REPORTDIR} ] || mkdir -pv ${REPORTDIR}

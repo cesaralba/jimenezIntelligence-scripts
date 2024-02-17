@@ -16,3 +16,4 @@ export DATADIR=MYDATA/SuperManager
 
 export SM_VERBOSE=0
 export SM_DEBUG=0
+export SM_DEBUGSCRIPTS=0

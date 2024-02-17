@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 function soLong {
   MSG=${1:-No msg}
   echo ${MSG}
@@ -7,14 +9,20 @@ function soLong {
 }
 
 CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
+[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
+
+if [ "x${SM_DEBUGSCRIPTS}" = 1 ]
+then
+  set -vx
+fi
 
 ME="$(readlink -e $0)"
 HEREDIR=$(cd "$(dirname ${ME})" && pwd )
 BASEDIR=$(cd "${HEREDIR}/../" && pwd )
 TODAY=$(date '+%Y%m%d%H%M')
 
-[ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 CLAVEYEAR=${FILEKEY:-2023}
+COMPO=${SM_COMPETICION:-ACB}
 
 if [ -n "${DATADIR}" ] ; then
   ROOTDATA=${DATADIR}
@@ -36,9 +44,9 @@ else
   soLong "ORROR: Incapaz de encontrar activador de virtualenv. Pruebe a ejecutar ${HEREDIR}/buildVENV.sh . Adios."
 fi
 
-ORIGSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.latest.p"
-DESTSMFILE="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.newest.p"
-DESTSMFILEDATED="${ROOTDATA}/temporada/ACB${CLAVEYEAR}.${TODAY}.p"
+ORIGSMFILE="${ROOTDATA}/temporada/${COMPO}${CLAVEYEAR}.latest.p"
+DESTSMFILE="${ROOTDATA}/temporada/${COMPO}${CLAVEYEAR}.newest.p"
+DESTSMFILEDATED="${ROOTDATA}/temporada/${COMPO}${CLAVEYEAR}.${TODAY}.p"
 
 if [ -f ${ORIGSMFILE} ]
 then
