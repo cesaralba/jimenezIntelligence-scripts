@@ -5,7 +5,7 @@ set -eu
 CONFIGFILE=${DEVSMCONFIGFILE:-/etc/sysconfig/SuperManager}
 [ -f ${CONFIGFILE} ] && source ${CONFIGFILE}
 
-if [ "x${SM_DEBUGSCRIPTS}" = 1 ]
+if [ ${SM_DEBUGSCRIPTS:-0} = 1 ]
 then
   set -vx
 fi
@@ -63,7 +63,7 @@ then
   exit 1
 fi
 
-export PYTHONPATH=${PYTHONPATH}:${WRKDIR}
+export PYTHONPATH=${PYTHONPATH:-""}:${WRKDIR}
 
 python ${WRKDIR}/bin/generaPrograma.py -t ${ORIGSMFILE} -e ${TARGETCLUB} -o ${DESTFILE}
 
